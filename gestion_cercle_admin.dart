@@ -200,7 +200,7 @@ class _gestionCercleAdminState extends State<gestionCercleAdmin> {
                           SizedBox(
                             width: 10.0,
                           ),
-                          Text('Ajouter des gens', style: TextStyle(
+                          Text('Inviter des gens', style: TextStyle(
                             color: Colors.black,
                             fontSize: 18.0,
 
@@ -212,7 +212,11 @@ class _gestionCercleAdminState extends State<gestionCercleAdmin> {
                               icon: Icon(Icons.chevron_right),
                               iconSize: 30.0,
                               color: Color(0xffF1B97A),
-                              onPressed: () {})
+                              onPressed: ()  => Navigator.of(context)
+                                  .push(new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                new InvitePage(),
+                              )))
                         ],
                       ),
                       Container(
