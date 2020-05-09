@@ -3,6 +3,27 @@ import 'phone.dart';
 import 'nom.dart';
 import 'adresse.dart';
 import 'motdepasse.dart';
+import 'genre.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
+class CustomPicker extends CommonPickerModel {
+  String digits(int value, int length) {
+    return '$value'.padLeft(length, "0");
+  }
+
+
+
+  @override
+  DateTime finalTime() {
+    return currentTime.isUtc
+        ? DateTime.utc(currentTime.year, currentTime.month, currentTime.day,
+        this.currentLeftIndex(), this.currentMiddleIndex(), this.currentRightIndex())
+        : DateTime(currentTime.day, currentTime.month, currentTime.year, this.currentLeftIndex(),
+        this.currentMiddleIndex(), this.currentRightIndex());
+  }
+}
 
 class SettingsOnePage extends StatefulWidget {
   static final String path = "lib/src/pages/settings/settings1.dart";
@@ -69,7 +90,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                 ),
                 const SizedBox(height: 70.0),
                 Container(
-                  height: 240,
+                  height: 341,
                   child: Card(
                     elevation: 10.0,
                     margin: const EdgeInsets.only(left: 18.0, right: 18.0),
@@ -88,6 +109,45 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                               Navigator.of(context).push(new MaterialPageRoute(
                             builder: (BuildContext context) => new MotPage(),
                           )),
+                        ),
+                        _buildDivider(),
+                        ListTile(
+                          leading: Icon(
+                            Icons.face,
+                            color: Color(0xffE8652D),
+                          ),
+                          title: Text("Modifier le sexe"),
+                          trailing: Icon(Icons.keyboard_arrow_right ,  color: Color(0xffF1B97A)),
+                          onTap: () =>
+                              Navigator.of(context).push(new MaterialPageRoute(
+                                builder: (BuildContext context) => new GenrePage(),
+                              )),
+                        ),
+                        _buildDivider(),
+                        ListTile(
+                          leading: Icon(
+                            Icons.cake,
+                            color: Color(0xffE8652D),
+                          ),
+                          title: Text("Modifier la date de naissance"),
+                          trailing: Icon(Icons.calendar_today, color: Color(0xffF1B97A)),
+                          onTap: (){
+                            DatePicker.showDatePicker(context,
+                                showTitleActions: true,
+                                minTime: DateTime(1950, 1, 1),
+                                maxTime: DateTime(2100, 1, 1),
+                                theme: DatePickerTheme(
+                                    headerColor: Color(0xffF1B97A),
+                                    backgroundColor: Color(0xffF1B97A),
+                                    itemStyle: TextStyle(
+                                        color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                                    doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
+                                onChanged: (date) {
+                                  print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+                                }, onConfirm: (date) {
+                                  print('confirm $date');
+                                }, currentTime: DateTime.now(), locale: LocaleType.fr);
+                          },
                         ),
                         _buildDivider(),
                         ListTile(
